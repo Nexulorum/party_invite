@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🕷 RSVP — You're Summoned</title>
+  <meta name="theme-color" content="#7c3aed" />
+
+  <!-- Fonts to match invite -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0a0a0a; --panel:#0f0f12; --ink:#f1f1f1; --muted:#bdbdbd;
+      --brand:#7c3aed; --brand-2:#9333ea; --ring:0 0 0 3px rgba(147,51,234,.35);
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial; background:var(--bg); color:var(--ink)}
+    .wrap{max-width:720px; margin:0 auto; padding:24px}
+    header{background:linear-gradient(135deg, rgba(124,58,237,.10), rgba(147,51,234,.06)); border:1px solid rgba(255,255,255,.06); border-radius:20px; padding:24px; text-align:center; margin-bottom:18px; box-shadow:0 10px 40px rgba(0,0,0,.5)}
+    .badge{display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.12); color:var(--muted); background:rgba(255,255,255,.05)}
+    h1{font-family:"Cinzel Decorative", serif; font-size:clamp(26px,5vw,44px); margin:12px 0 4px}
+    p.sub{color:var(--muted); margin:0}
+
+    form{background:var(--panel); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:18px}
+    .row{display:grid; grid-template-columns:1fr; gap:12px}
+    @media(min-width:720px){.row{grid-template-columns:1fr 1fr}}
+    a{color:var(--brand); text-decoration:none}
+    a:hover{text-decoration:underline}
+    label{font-weight:600; font-size:14px; display:block; margin-bottom:6px}
+    input,textarea,select{width:100%; color:var(--ink); background:#0b0b0e; border:1px solid rgba(255,255,255,.14); border-radius:12px; padding:10px 12px; font:inherit}
+    input:focus,textarea:focus,select:focus{outline:none; box-shadow:var(--ring); border-color:var(--brand)}
+    .hint{font-size:12px; color:var(--muted)}
+
+    .actions{margin-top:14px; display:flex; gap:10px; flex-wrap:wrap}
+    .btn{display:inline-flex; align-items:center; gap:8px; padding:12px 16px; border-radius:12px; font-weight:800; cursor:pointer; border:1px solid var(--brand); color:white; background:#0a0a0a;}
+    .btn:hover{box-shadow:0 0 18px rgba(239,68,68,.25)}
+    .btn.alt{border-color:rgba(255,255,255,.18)}
+    .glow{position:absolute; inset:-30%; background:radial-gradient( circle at 70% 10%, rgba(124,58,237,.25), transparent 35%), radial-gradient(circle at 20% 30%, rgba(147,51,234,.25), transparent 40%); filter:blur(60px); opacity:.5; z-index:-1}
+
+    .foot{color:var(--muted); font-size:12px; text-align:center; margin-top:18px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="glow" aria-hidden="true"></div>
+      <div class="badge">💀 You're Summoned</div>
+      <h1>🕷 RSVP</h1>
+      <p class="sub">Join the Dark Agenda — confirm your attendance below.</p>
+    </header>
+
+    <!-- Configure these constants to match your event/email -->
+    <script>
+      const TO_EMAIL = 'partyrsvp5463@proton.me';      
+      const EVENT_NAME = 'Emoriis 4th dark day of cake';    
+    </script>
+
+    <form id="rsvpForm" novalidate>
+      <div class="row">
+        <div>
+          <label for="name">Full Name</label>
+          <input id="name" name="name" placeholder="Morticia Addams" required>
+          <div class="hint">Required</div>
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="morticia@example.com" required>
+          <div class="hint">Required</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="guests">How many attending (including you)?</label>
+          <select id="guests" name="guests">
+            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option>
+          </select>
+        </div>
+        <div>
+          <label for="phone">Phone (optional)</label>
+          <input id="phone" name="phone" type="tel" placeholder="281-330-8004">
+        </div>
+      </div>
+
+      <div class="row" style="grid-template-columns:1fr">
+        <div>
+          <label for="notes">Notes (allergies, costume, etc.)</label>
+          <textarea id="notes" name="notes" rows="4" placeholder="Allergic to werewolves. Bringing 2 little goblins."></textarea>
+        </div>
+        <label style="display:flex; align-items:center; gap:8px; margin-top:8px">
+          <input type="checkbox" id="optin"> <span class="hint">Keep me updated on future events</span>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button class="btn" type="submit">💌 Send RSVP</button>
+        <a class="btn alt" href="./index3.html">🕸 Back to Invite</a>
+      </div>
+      <p class="foot">If your email app doesn’t open, please email <a href="#" id="mailtoLink">us</a> with your details.</p>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('rsvpForm');
+    const mailtoLink = document.getElementById('mailtoLink');
+
+    function mailtoHref(data){
+      const subject = encodeURIComponent(`RSVP: ${EVENT_NAME}`);
+      const body = encodeURIComponent(
+        `Name: ${data.name}\n`+
+        `Email: ${data.email}\n`+
+        `Guests: ${data.guests}\n`+
+        (data.phone?`Phone: ${data.phone}\n`:``)+
+        (data.notes?`Notes: ${data.notes}\n`:``)+
+        `Updates Opt-in: ${data.optin ? 'Yes' : 'No'}`
+      );
+      return `mailto:${TO_EMAIL}?subject=${subject}&body=${body}`;
+    }
+
+    mailtoLink.href = `mailto:${TO_EMAIL}?subject=${encodeURIComponent('RSVP')}`;
+
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+      data.optin = document.getElementById('optin').checked;
+
+      // basic validation
+      if(!data.name || !data.email){
+        alert('Please fill in your name and email.');
+        return;
+      }
+
+      const href = mailtoHref(data);
+      // attempt to open mail app
+      window.location.href = href;
+    });
+  </script>
+</body>
+</html>
